@@ -3,34 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Portable Tracker Material - Track Your Construction Materials</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Box Icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="wrapper">
-        <form action="">
-            <h1>Portable Tracker Material</h1>
-            <div class="input-box">
-                <input type="text" placeholder="username" required>
-                <i class='bx bxs-user-rectangle' ></i>
-            </div> 
-            <div class="input-box">
-                <input type="password" placeholder="password" required>
-                <i class='bx bxs-lock-alt' ></i>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class='bx bxs-cube-alt me-2'></i>
+                Portable Tracker
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-outline-light btn-sm" href="Login-page/login.html">Login</a>
+                    </li>
+                </ul>
             </div>
-            <div class="remember-forgot">
-                <label><input type="checkbox">Remember me</label>
-                <a href="#">Forgot Password ?</a>
-            </div>
-            <button type="submit" class="btn">Login</button>
-            <div class="register-link">
-                <p>Dont have an account ? <a href="#">Register</a></p>
-            </div>       
-        </form>
-    </div>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Track Your Construction Materials with Ease</h1>
+                    <p class="hero-subtitle">Efficient, reliable, and portable material tracking solution for construction projects of all sizes. Monitor inventory, track usage, and optimize your supply chain.</p>
+                    <div class="hero-buttons">
+                        <a href="#features" class="btn btn-primary btn-lg me-3">Learn More</a>
+                        <a href="#get-started" class="btn btn-outline-light btn-lg">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <!-- <div class="hero-image">
+                        <img src="https://cdn.vectorstock.com/i/1000p/11/04/road-paving-construction-vector-35841104.avif" alt="Construction Tracking" class="img-fluid rounded-3">
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="section-title">Powerful Features</h2>
+                    <p class="section-subtitle">Everything you need to manage your construction materials efficiently</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class='bx bxs-dashboard'></i>
+                        </div>
+                        <h4>Real-time Tracking</h4>
+                        <p>Monitor material movement and inventory levels in real-time across all your construction sites.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class='bx bxs-report'></i>
+                        </div>
+                        <h4>Smart Reporting</h4>
+                        <p>Generate comprehensive reports on material usage, waste, and project requirements.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class='bx bxs-mobile-alt'></i>
+                        </div>
+                        <h4>Mobile Friendly</h4>
+                        <p>Access your material tracking data from any device, anywhere, at any time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Why Choose Portable Tracker?</h2>
+                    <p class="about-text">
+                        Our platform is designed specifically for construction professionals who need to maintain 
+                        accurate control over their material resources. With years of industry experience, we've 
+                        created a solution that addresses the unique challenges of construction material management.
+                    </p>
+                    <ul class="feature-list">
+                        <li><i class='bx bx-check'></i> Reduce material waste by up to 30%</li>
+                        <li><i class='bx bx-check'></i> Improve project timeline accuracy</li>
+                        <li><i class='bx bx-check'></i> Streamline supply chain operations</li>
+                        <li><i class='bx bx-check'></i> Enhance cost control and budgeting</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-stats">
+                        <div class="row text-center">
+                            <div class="col-6 mb-4">
+                                <div class="stat-card">
+                                    <h3>500+</h3>
+                                    <p>Projects Tracked</p>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-4">
+                                <div class="stat-card">
+                                    <h3>98%</h3>
+                                    <p>Accuracy Rate</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card">
+                                    <h3>24/7</h3>
+                                    <p>Support Available</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card">
+                                    <h3>50+</h3>
+                                    <p>Construction Companies</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="get-started" class="cta-section py-5">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h2 class="cta-title">Ready to Transform Your Material Tracking?</h2>
+                    <p class="cta-subtitle">Join hundreds of construction companies that trust Portable Tracker for their material management needs.</p>
+                    <div class="cta-buttons">
+                        <a href="/Login-page/login.html" class="btn btn-primary btn-lg me-3">Sign Up Free</a>
+                        <a href="/Login-page/login.html" class="btn btn-outline-light btn-lg">Login to Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="section-subtitle">Have questions? We'd love to hear from you.</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="contact-info text-center">
+                        <div class="contact-item mb-4">
+                            <i class='bx bxs-envelope'></i>
+                            <h5>Email</h5>
+                            <p>support@portabletracker.com</p>
+                        </div>
+                        <div class="contact-item mb-4">
+                            <i class='bx bxs-phone'></i>
+                            <h5>Phone</h5>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class='bx bxs-map'></i>
+                            <h5>Office</h5>
+                            <p>123 Construction Ave, Build City, BC 12345</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Portable Tracker Material. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="footer-links">
+                        <a href="#" class="text-light me-3">Privacy Policy</a>
+                        <a href="#" class="text-light">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
 </body>
-
 </html>
