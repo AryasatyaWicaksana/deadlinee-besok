@@ -1,0 +1,312 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Dashboard
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100">
+  <div class="flex">
+   <!-- Sidebar -->
+   <div class="w-64 bg-blue-900 text-white min-h-screen">
+    <div class="p-4">
+     <img alt="Logo" class="mx-auto mb-4" height="50" src="https://storage.googleapis.com/a1aa/image/LY5AP0xnsMEkSyq6-OSH8Q_Q1MiSsa-G4W7gyR0F3fE.jpg" width="50"/>
+     <h1 class="text-center text-xl font-bold">
+      SIMAK
+     </h1>
+    </div>
+    <nav class="mt-10">
+     <ul>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-tachometer-alt mr-2">
+       </i>
+       Dashboard
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-box mr-2">
+       </i>
+       Produk
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-shopping-cart mr-2">
+       </i>
+       Penjualan
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-money-bill-wave mr-2">
+       </i>
+       Pengeluaran
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-users mr-2">
+       </i>
+       Karyawan
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-calendar-check mr-2">
+       </i>
+       Presensi
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-file-invoice-dollar mr-2">
+       </i>
+       Penggajian
+      </li>
+     </ul>
+     <h2 class="px-4 py-2 mt-10 text-sm font-bold">
+      Laporan Bulanan
+     </h2>
+     <ul>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-chart-line mr-2">
+       </i>
+       Keuangan
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-box-open mr-2">
+       </i>
+       Penjualan Produk
+      </li>
+      <li class="px-4 py-2 hover:bg-blue-700">
+       <i class="fas fa-file-invoice-dollar mr-2">
+       </i>
+       Penggajian Karyawan
+      </li>
+     </ul>
+    </nav>
+   </div>
+   <!-- Main Content -->
+   <div class="flex-1 p-6">
+    <div class="flex justify-between items-center mb-6">
+     <h2 class="text-xl font-bold">
+      Home &gt; Dashboard
+     </h2>
+     <div class="flex items-center space-x-4">
+      <button class="text-blue-900">
+       <i class="fas fa-info-circle">
+       </i>
+       About
+      </button>
+      <button class="text-blue-900">
+       <i class="fas fa-sign-out-alt">
+       </i>
+       Logout
+      </button>
+     </div>
+    </div>
+    <div class="grid grid-cols-4 gap-4 mb-6">
+     <div class="bg-orange-500 text-white p-4 rounded">
+      <div class="flex items-center">
+       <i class="fas fa-users fa-2x mr-4">
+       </i>
+       <div>
+        <h3 class="text-lg">
+         Jumlah Karyawan
+        </h3>
+        <p class="text-2xl font-bold">
+         15
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="bg-green-500 text-white p-4 rounded">
+      <div class="flex items-center">
+       <i class="fas fa-boxes fa-2x mr-4">
+       </i>
+       <div>
+        <h3 class="text-lg">
+         Jumlah Produk
+        </h3>
+        <p class="text-2xl font-bold">
+         32
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="bg-blue-500 text-white p-4 rounded">
+      <div class="flex items-center">
+       <i class="fas fa-shopping-cart fa-2x mr-4">
+       </i>
+       <div>
+        <h3 class="text-lg">
+         Total Transaksi
+        </h3>
+        <p class="text-2xl font-bold">
+         117
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="bg-purple-500 text-white p-4 rounded">
+      <div class="flex items-center">
+       <i class="fas fa-money-bill-wave fa-2x mr-4">
+       </i>
+       <div>
+        <h3 class="text-lg">
+         Total Pendapatan
+        </h3>
+        <p class="text-2xl font-bold">
+         Rp 27.586.000
+        </p>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+     <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-bold">
+       Transaksi Terbaru
+      </h3>
+      <input class="border p-2 rounded" placeholder="Cari/Filter" type="text"/>
+     </div>
+     <table class="w-full text-left border-collapse">
+      <thead>
+       <tr>
+        <th class="border p-2">
+         No
+        </th>
+        <th class="border p-2">
+         Waktu Transaksi
+        </th>
+        <th class="border p-2">
+         Nama Produk
+        </th>
+        <th class="border p-2">
+         Jumlah
+        </th>
+        <th class="border p-2">
+         Dibayar
+        </th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td class="border p-2">
+         1
+        </td>
+        <td class="border p-2">
+         2021-06-06 21:53:12.0
+        </td>
+        <td class="border p-2">
+         Lemon Tea
+        </td>
+        <td class="border p-2">
+         2
+        </td>
+        <td class="border p-2">
+         Rp 32.000
+        </td>
+       </tr>
+       <tr>
+        <td class="border p-2">
+         2
+        </td>
+        <td class="border p-2">
+         2021-06-06 21:52:59.0
+        </td>
+        <td class="border p-2">
+         Nasi Goreng Special
+        </td>
+        <td class="border p-2">
+         2
+        </td>
+        <td class="border p-2">
+         Rp 50.000
+        </td>
+       </tr>
+       <tr>
+        <td class="border p-2">
+         3
+        </td>
+        <td class="border p-2">
+         2021-06-06 17:30:20.0
+        </td>
+        <td class="border p-2">
+         Black Tea
+        </td>
+        <td class="border p-2">
+         1
+        </td>
+        <td class="border p-2">
+         Rp 32.000
+        </td>
+       </tr>
+       <tr>
+        <td class="border p-2">
+         4
+        </td>
+        <td class="border p-2">
+         2021-06-06 17:29:17.0
+        </td>
+        <td class="border p-2">
+         Nasi Ayam Bakar
+        </td>
+        <td class="border p-2">
+         2
+        </td>
+        <td class="border p-2">
+         Rp 40.000
+        </td>
+       </tr>
+       <tr>
+        <td class="border p-2">
+         5
+        </td>
+        <td class="border p-2">
+         2021-06-06 17:29:17.0
+        </td>
+        <td class="border p-2">
+         Matcha
+        </td>
+        <td class="border p-2">
+         2
+        </td>
+        <td class="border p-2">
+         Rp 36.000
+        </td>
+       </tr>
+       <tr>
+        <td class="border p-2">
+         6
+        </td>
+        <td class="border p-2">
+         2021-06-06 17:29:30.0
+        </td>
+        <td class="border p-2">
+         Caramel Milkshake
+        </td>
+        <td class="border p-2">
+         3
+        </td>
+        <td class="border p-2">
+         Rp 60.000
+        </td>
+       </tr>
+       <tr>
+        <td class="border p-2">
+         7
+        </td>
+        <td class="border p-2">
+         2021-06-06 17:29:30.0
+        </td>
+        <td class="border p-2">
+         Americano
+        </td>
+        <td class="border p-2">
+         1
+        </td>
+        <td class="border p-2">
+         Rp 15.000
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
