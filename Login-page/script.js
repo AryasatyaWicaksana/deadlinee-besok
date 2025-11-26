@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi berdasarkan halaman
     if (currentPage === 'index.html' || currentPage === '' || currentPage === '/') {
         initLandingPage();
-    } else if (currentPage === '../login.html') {
+    } else if (currentPage === 'login.html') {
         initLoginPage();
     } else if (currentPage === 'register.html') {
         initRegisterPage();
@@ -129,12 +129,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
 
                     sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('currentUser', username);
                     
-                    showMessage('Login successful! Redirecting...', 'success');
+                    showMessage('Login successful! Redirecting to dashboard...', 'success');
                     
                     setTimeout(() => {
-                        alert(`Welcome, ${username}! Redirecting to dashboard...`);
-                        // window.location.href = 'dashboard.html';
+                        // Redirect ke dashboard
+                        window.location.href = '../Dashboard/dashboard.html';
                     }, 1500);
                 } else {
                     showMessage('Invalid username or password', 'error');
