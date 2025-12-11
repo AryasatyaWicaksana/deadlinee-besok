@@ -39,7 +39,7 @@
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
                     <li class="nav-item ms-2">
-                        <a class="btn btn-outline-light btn-sm" href="Login-page/login.html">Login</a>
+                        <a class="btn btn-outline-light btn-sm" href="Login-page/login.php">Login</a>
                     </li>
                 </ul>
             </div>
@@ -168,8 +168,8 @@
                     <h2 class="cta-title">Ready to Transform Your Material Tracking?</h2>
                     <p class="cta-subtitle">Join hundreds of construction companies that trust Portable Tracker for their material management needs.</p>
                     <div class="cta-buttons">
-                        <a href="/Login-page/login.html" class="btn btn-primary btn-lg me-3">Sign Up Free</a>
-                        <a href="/Login-page/login.html" class="btn btn-outline-light btn-lg">Login to Account</a>
+                        <a href="/Login-page/login.php" class="btn btn-primary btn-lg me-3">Sign Up Free</a>
+                        <a href="/Login-page/login.php" class="btn btn-outline-light btn-lg">Login to Account</a>
                     </div>
                 </div>
             </div>

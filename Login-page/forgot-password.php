@@ -24,7 +24,7 @@
             <button type="submit" class="btn">Send Reset Instructions</button>
             
             <div class="register-link">
-                <p>Remember your password? <a href="login.html"">Back to Login</a></p>
+                <p>Remember your password? <a href="login.php"">Back to Login</a></p>
             </div>       
         </form>
     </div>

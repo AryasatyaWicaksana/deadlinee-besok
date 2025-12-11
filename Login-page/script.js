@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPage = window.location.pathname.split('/').pop();
     
     // Inisialisasi berdasarkan halaman
-    if (currentPage === 'index.html' || currentPage === '' || currentPage === '/') {
+    if (currentPage === '../index.php' || currentPage === '' || currentPage === '/') {
         initLandingPage();
-    } else if (currentPage === 'login.html') {
+    } else if (currentPage === 'login.php') {
         initLoginPage();
-    } else if (currentPage === 'register.html') {
+    } else if (currentPage === 'register.php') {
         initRegisterPage();
-    } else if (currentPage === 'forgot-password.html') {
+    } else if (currentPage === 'forgot-password.php') {
         initForgotPasswordPage();
     }
 
@@ -90,14 +90,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (forgotPasswordLink) {
             forgotPasswordLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = 'forgot-password.html';
+                window.location.href = 'forgot-password.php';
             });
         }
 
         if (registerLink) {
             registerLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = 'register.html';
+                window.location.href = 'register.php';
             });
         }
 
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     setTimeout(() => {
                         // Redirect ke dashboard
-                        window.location.href = '../Dashboard/dashboard.html';
+                        window.location.href = '../Dashboard/app.php';
                     }, 1500);
                 } else {
                     showMessage('Invalid username or password', 'error');
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loginLink) {
             loginLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = 'login.html';
+                window.location.href = 'login.php';
             });
         }
 
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showMessage('Registration successful! Redirecting to login...', 'success');
                 
                 setTimeout(() => {
-                    window.location.href = 'login.html';
+                    window.location.href = 'login.php';
                 }, 2000);
             }, 2000);
         }
@@ -245,14 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loginLink) {
             loginLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = 'login.html';
+                window.location.href = 'login.php';
             });
         }
 
         if (backToLogin) {
             backToLogin.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = 'login.html';
+                window.location.href = 'login.php';
             });
         }
 
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showMessage(`Password reset instructions have been sent to ${email}`, 'success');
                 
                 setTimeout(() => {
-                    window.location.href = 'login.html';
+                    window.location.href = 'login.php';
                 }, 3000);
                 
                 submitBtn.textContent = originalText;
