@@ -151,3 +151,154 @@ window.dashboardModule = {
     handleLogout,
     showMessage
 };
+// =========================
+// LOCAL STORAGE FUNCTIONS
+// =========================
+
+// MATERIAL
+function getMaterials() {
+  return JSON.parse(localStorage.getItem("materials") || "[]");
+}
+
+function saveMaterials(data) {
+  localStorage.setItem("materials", JSON.stringify(data));
+}
+
+// TRANSAKSI
+function getTransaksi() {
+  return JSON.parse(localStorage.getItem("transaksi") || "[]");
+}
+
+function saveTransaksi(data) {
+  localStorage.setItem("transaksi", JSON.stringify(data));
+}
+
+// SAMPLE DATA (jika kosong)
+function initSampleData() {
+  if (!localStorage.getItem("materials")) {
+    saveMaterials([
+      { id: 1, nama: "Besi Beton 8mm", stok: 1250, satuan: "batang" },
+      { id: 2, nama: "Semen Portland", stok: 200, satuan: "sak" },
+      { id: 3, nama: "Paku Beton 3\"", stok: 75, satuan: "kg" },
+    ]);
+  }
+
+  if (!localStorage.getItem("transaksi")) {
+    saveTransaksi([
+      {
+        id: 1,
+        waktu: new Date(),
+        materialId: 1,
+        jenis: "Masuk",
+        jumlah: 500,
+        lokasi: "Gudang Utama",
+        status: "Selesai"
+      }
+    ]);
+  }
+}
+
+
+// =========================
+// DASHBOARD RENDER
+// =========================
+function renderDashboard(tbody, totalMaterialEl, totalTransaksiEl) {
+  const materials = getMaterials();
+  const transaksi = getTransaksi();
+
+  totalMaterialEl.textContent = materials.length;
+  totalTransaksiEl.textContent = transaksi.length;
+
+  tbody.innerHTML = transaksi
+    .sort((a,b)=> new Date(b.waktu)-new Date(a.waktu))
+    .map((t,i)=>{
+      const m = materials.find(x=>x.id===t.materialId);
+      return `
+        <tr>
+          <td>${i+1}</td>
+          <td>${new Date(t.waktu).toLocaleString()}</td>
+          <td><span class="badge bg-${t.jenis==="Masuk"?"success":"danger"}">${t.jenis}</span></td>
+          <td>${m ? m.nama : "-"}</td>
+          <td>${t.jumlah} ${m?.satuan}</td>
+          <td>${t.lokasi||"-"}</td>
+          <td><span class="badge bg-${t.status==="Selesai"?"success":"warning text-dark"}">${t.status}</span></td>
+          <td>${m ? m.stok+" "+m.satuan : "-"}</td>
+        </tr>`;
+    })
+    .join("");
+}
+
+
+
+// =========================
+// MATERIAL CRUD
+// =========================
+function addMaterial(nama, satuan) {
+  const data = getMaterials();
+  data.push({
+    id: Date.now(),
+    nama,
+    stok: 0,
+    satuan
+  });
+  saveMaterials(data);
+}
+
+function deleteMaterial(id) {
+  const data = getMaterials().filter(x => x.id != id);
+  saveMaterials(data);
+}
+
+
+
+// =========================
+// INPUT MATERIAL MASUK
+// =========================
+function tambahMasuk(materialId, jumlah, lokasi){
+  const mats = getMaterials();
+  const target = mats.find(x=>x.id == materialId);
+  if (!target) return;
+
+  target.stok += jumlah;
+  saveMaterials(mats);
+
+  const trx = getTransaksi();
+  trx.push({
+    id: Date.now(),
+    waktu: new Date(),
+    materialId: Number(materialId),
+    jenis: "Masuk",
+    jumlah,
+    lokasi,
+    status: "Selesai"
+  });
+  saveTransaksi(trx);
+}
+
+// =========================
+// INPUT MATERIAL KELUAR
+// =========================
+function tambahKeluar(materialId, jumlah, lokasi){
+  const mats = getMaterials();
+  const target = mats.find(x=>x.id == materialId);
+  if (!target) return;
+
+  target.stok = Math.max(0, target.stok - jumlah);
+  saveMaterials(mats);
+
+  const trx = getTransaksi();
+  trx.push({
+    id: Date.now(),
+    waktu: new Date(),
+    materialId: Number(materialId),
+    jenis: "Keluar",
+    jumlah,
+    lokasi,
+    status: "Selesai"
+  });
+  saveTransaksi(trx);
+}
+
+
+
+

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portable Material Tracker - Single File</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --blue-900: #0b4a6f; /* sidebar background */
+      --accent: #0b7ab0;
+      --muted: #6c757d;
+      --card-shadow: 0 8px 20px rgba(11,74,111,0.06);
+      --glass: rgba(255,255,255,0.85);
+    }
+
+    html,body{
+      height:100%;
+      background:#f4f7fb;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#222;
+    }
+
+    /* Layout */
+    .dashboard-container{
+      display:flex;
+      min-height:100vh;
+      gap:20px;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      width:260px;
+      background: linear-gradient(180deg,var(--blue-900), #07364f);
+      color:#fff;
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      box-shadow: 0 6px 18px rgba(7,19,30,0.08);
+    }
+    .sidebar-logo{
+      width:48px;height:48px;border-radius:8px;object-fit:cover;
+    }
+    .sidebar-header{
+      display:flex;align-items:center;gap:12px;margin-bottom:8px;
+    }
+    .sidebar-title{
+      font-size:13px; font-weight:700; letter-spacing:0.6px;
+    }
+    .sidebar-nav{ margin-top:8px; flex:1; }
+    .sidebar-nav ul{ list-style:none;padding:0;margin:0; }
+    .sidebar-nav .nav-item{ margin-bottom:6px; }
+    .sidebar-nav .nav-link{
+      display:flex;gap:10px;align-items:center;
+      color:rgba(255,255,255,0.92);
+      padding:10px 12px;border-radius:8px;text-decoration:none;
+      transition:all .12s ease;
+    }
+    .sidebar-nav .nav-link:hover{ background: rgba(255,255,255,0.06); transform: translateY(-1px); }
+    .sidebar-nav .nav-link.active{ background: rgba(255,255,255,0.12); box-shadow: 0 6px 18px rgba(11,74,111,0.18); }
+    .sidebar-footer{ font-size:12px;color:rgba(255,255,255,0.65); margin-top:12px; }
+
+    /* Main content */
+    .main-content{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      padding:22px;
+    }
+
+    .main-header{
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
+      border-radius:12px;padding:14px 18px;margin-bottom:16px;
+      box-shadow: var(--card-shadow);
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .page-title{ font-size:16px;font-weight:700;color:#0b3753;margin:0;display:flex;gap:10px;align-items:center; }
+    .header-actions .btn{ border-radius:10px; }
+
+    .page-inner{
+      background:transparent;
+    }
+
+    /* Cards */
+    .stats-container{ margin-bottom:16px; }
+    .stat-card{
+      border-radius:12px;padding:16px;color:#fff;display:flex;gap:12px;align-items:center;
+      box-shadow: var(--card-shadow);
+    }
+    .stat-icon{
+      width:56px;height:56px;border-radius:10px;background:rgba(255,255,255,0.12);
+      display:flex;align-items:center;justify-content:center;font-size:20px;
+    }
+    .stat-title{ font-size:13px; margin:0; color:rgba(255,255,255,0.9); font-weight:600; }
+    .stat-value{ font-size:20px; margin:0; font-weight:800; color:#fff; }
+
+    .stat-card-orange{ background: linear-gradient(135deg,#ff8a00,#ff6a00); }
+    .stat-card-green{ background: linear-gradient(135deg,#2bb673,#1f8a5b); }
+    .stat-card-blue { background: linear-gradient(135deg,#0b7ab0,#045e86); }
+    .stat-card-purple { background: linear-gradient(135deg,#7b61ff,#5a3ad9); }
+
+    /* content section */
+    .content-section{
+      background:var(--glass);padding:18px;border-radius:12px;box-shadow:var(--card-shadow);
+    }
+    .section-header{ margin-bottom:10px; }
+
+    /* tables */
+    table.table thead.table-dark th{ background:#0b4a6f; color:#fff; border:none; }
+    .table-responsive{ max-height:56vh; overflow:auto; }
+
+    /* small */
+    .muted{ color:var(--muted); font-size:13px; }
+
+    /* responsive */
+    @media (max-width: 900px){
+      .sidebar{ display:none; }
+      .dashboard-container{ padding:12px; }
+    }
+
+    /* utility */
+    .me-2{ margin-right:.5rem!important; }
+    .mb-3{ margin-bottom:1rem!important; }
+
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img alt="Logo" class="sidebar-logo"
+             src="https://housedesigninnepal.com/wp-content/uploads/2025/08/Construction-Calculator-LOGO.png">
+        <div>
+          <div style="font-size:13px;font-weight:700">PORTABLE MATERIAL TRACKER</div>
+          <div style="font-size:12px;opacity:.9">Inventory · Project</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item"><a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i>&nbsp; Dashboard</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-page="material"><i class="fas fa-box"></i>&nbsp; Material</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-page="stok"><i class="fas fa-warehouse"></i>&nbsp; Stok</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-page="masuk"><i class="fas fa-sign-in-alt"></i>&nbsp; Material Masuk</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-page="keluar"><i class="fas fa-sign-out-alt"></i>&nbsp; Material Keluar</a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div>Versi <strong>1.0</strong></div>
+        <div style="margin-top:8px;font-size:12px">Ival · Portable Tracker</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <header class="main-header">
+        <div class="header-left">
+          <h2 class="page-title"><i class="fas fa-home"></i> <span id="headerTitle">Home &gt; Dashboard</span></h2>
+        </div>
+        <div class="header-actions">
+          <input id="globalSearch" type="search" class="form-control form-control-sm d-inline-block" style="width:260px;" placeholder="Cari transaksi / material...">
+          <button class="btn btn-outline-primary btn-sm ms-2" id="aboutBtn"><i class="fas fa-info-circle me-1"></i>About</button>
+          <button class="btn btn-outline-danger btn-sm ms-2" id="logoutBtn" onclick="location.reload()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+        </div>
+      </header>
+
+      <div class="page-inner">
+        <!-- DASHBOARD PAGE -->
+        <div id="page-dashboard" class="p-0">
+          <div class="stats-container mb-3">
+            <div class="row g-3">
+              <div class="col-md-3">
+                <div class="stat-card stat-card-orange">
+                  <div class="stat-icon"><i class="fas fa-users"></i></div>
+                  <div class="flex-grow-1">
+                    <p class="stat-title">Jumlah Karyawan</p>
+                    <p class="stat-value" id="jumlahKaryawan">15</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="stat-card stat-card-green">
+                  <div class="stat-icon"><i class="fas fa-boxes"></i></div>
+                  <div>
+                    <p class="stat-title">Jumlah Material</p>
+                    <p class="stat-value" id="totalMaterial">0</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="stat-card stat-card-blue">
+                  <div class="stat-icon"><i class="fas fa-exchange-alt"></i></div>
+                  <div>
+                    <p class="stat-title">Total Transaksi</p>
+                    <p class="stat-value" id="totalTransaksi">0</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="stat-card stat-card-purple">
+                  <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+                  <div>
+                    <p class="stat-title">Nilai Inventory (estimasi)</p>
+                    <p class="stat-value" id="nilaiInventory">Rp 0</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-section">
+            <div class="d-flex justify-content-between align-items-center section-header">
+              <h5 class="section-title"><i class="fas fa-list me-2"></i>Riwayat Transaksi Terbaru</h5>
+              <div class="d-flex gap-2">
+                <select id="filterJenis" class="form-select form-select-sm me-2" style="width:160px;">
+                  <option value="">Semua Jenis</option>
+                  <option value="Masuk">Masuk</option>
+                  <option value="Keluar">Keluar</option>
+                </select>
+                <input id="searchTransaksi" class="form-control form-control-sm" style="width:240px" placeholder="Cari nama / lokasi / status">
+              </div>
+            </div>
+
+            <div class="table-responsive mt-3">
+              <table class="table table-hover table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>No</th>
+                    <th>Waktu</th>
+                    <th>Jenis</th>
+                    <th>Nama Material</th>
+                    <th>Jumlah</th>
+                    <th>Lokasi</th>
+                    <th>Status</th>
+                    <th>Stok Akhir</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="tabelTransaksi"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATERIAL PAGE -->
+        <div id="page-material" class="d-none">
+          <div class="content-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="section-title"><i class="fas fa-box me-2"></i>Data Material</h5>
+              <div>
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahMaterial">
+                  <i class="fas fa-plus me-1"></i>Tambah Material
+                </button>
+                <button class="btn btn-outline-secondary btn-sm ms-2" id="refreshMaterial"><i class="fas fa-sync-alt"></i></button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Satuan</th>
+                    <th>Stok</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="materialBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- STOK PAGE -->
+        <div id="page-stok" class="d-none">
+          <div class="content-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="section-title"><i class="fas fa-warehouse me-2"></i>Stok Material</h5>
+              <div class="muted">Terakhir diperbarui: <span id="stokUpdated">-</span></div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr><th>No</th><th>Nama</th><th>Stok</th><th>Satuan</th><th>Aksi</th></tr>
+                </thead>
+                <tbody id="stokBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- MASUK PAGE -->
+        <div id="page-masuk" class="d-none">
+          <div class="content-section">
+            <h5 class="section-title mb-3"><i class="fas fa-sign-in-alt me-2"></i>Input Material Masuk</h5>
+
+            <div class="card p-3 mb-3" style="border-radius:12px;">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label small">Material</label>
+                  <select id="mSelect" class="form-select"></select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small">Jumlah</label>
+                  <input id="mJumlah" type="number" min="1" class="form-control" placeholder="0">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small">Lokasi</label>
+                  <input id="mLokasi" class="form-control" placeholder="Gudang / Proyek">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                  <button class="btn btn-success w-100" id="btnMasuk"><i class="fas fa-save me-1"></i>Simpan</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="muted mb-2">Riwayat Masuk terakhir</div>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark"><tr><th>No</th><th>Waktu</th><th>Material</th><th>Jumlah</th><th>Lokasi</th><th>Aksi</th></tr></thead>
+                <tbody id="masukBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- KELUAR PAGE -->
+        <div id="page-keluar" class="d-none">
+          <div class="content-section">
+            <h5 class="section-title mb-3"><i class="fas fa-sign-out-alt me-2"></i>Input Material Keluar</h5>
+
+            <div class="card p-3 mb-3" style="border-radius:12px;">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label small">Material</label>
+                  <select id="kSelect" class="form-select"></select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small">Jumlah</label>
+                  <input id="kJumlah" type="number" min="1" class="form-control" placeholder="0">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small">Lokasi</label>
+                  <input id="kLokasi" class="form-control" placeholder="Gudang / Proyek">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                  <button class="btn btn-danger w-100" id="btnKeluar"><i class="fas fa-save me-1"></i>Simpan</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="muted mb-2">Riwayat Keluar terakhir</div>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark"><tr><th>No</th><th>Waktu</th><th>Material</th><th>Jumlah</th><th>Lokasi</th><th>Aksi</th></tr></thead>
+                <tbody id="keluarBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TAMBAH MATERIAL -->
+  <div class="modal fade" id="modalTambahMaterial" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Material</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label small">Nama Material</label>
+          <input id="namaMat" class="form-control mb-2" placeholder="Contoh: Semen Portland">
+          <label class="form-label small">Satuan</label>
+          <input id="satuanMat" class="form-control mb-2" placeholder="sak / kg / batang">
+          <label class="form-label small">Stok Awal (opsional)</label>
+          <input id="stokMat" type="number" class="form-control" placeholder="0">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button class="btn btn-primary" id="btnSaveMaterialModal">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    /* ==========================
+       LocalStorage Data Layer
+       ========================== */
+
+    function getMaterials(){ return JSON.parse(localStorage.getItem('materials')||'[]'); }
+    function saveMaterials(arr){ localStorage.setItem('materials', JSON.stringify(arr)); }
+    function getTransaksi(){ return JSON.parse(localStorage.getItem('transaksi')||'[]'); }
+    function saveTransaksi(arr){ localStorage.setItem('transaksi', JSON.stringify(arr)); }
+
+    function initSampleData(){
+      if(!localStorage.getItem('materials')){
+        saveMaterials([
+          { id: 1, nama: "Besi Beton 8mm", stok: 1250, satuan: "batang", harga: 5000 },
+          { id: 2, nama: "Semen Portland", stok: 200, satuan: "sak", harga: 70000 },
+          { id: 3, nama: "Paku Beton 3\"", stok: 75, satuan: "kg", harga: 45000 },
+        ]);
+      }
+      if(!localStorage.getItem('transaksi')){
+        saveTransaksi([
+          { id: 1, waktu: new Date().toISOString(), materialId:1, jenis:'Masuk', jumlah:500, lokasi:'Gudang Utama', status:'Selesai' },
+          { id: 2, waktu: new Date().toISOString(), materialId:2, jenis:'Keluar', jumlah:10, lokasi:'Proyek A', status:'Selesai' }
+        ]);
+      }
+    }
+
+    // call init
+    initSampleData();
+
+    /* ==========================
+       Helpers
+       ========================== */
+    function formatRupiah(n){
+      if(!n && n !== 0) return "Rp 0";
+      return 'Rp ' + Number(n).toLocaleString('id-ID');
+    }
+
+    function nowISO(){ return new Date().toISOString(); }
+
+    /* ==========================
+       Render functions
+       ========================== */
+
+    // Dashboard
+    function renderDashboard(){
+      const mats = getMaterials();
+      const trx = getTransaksi();
+
+      document.getElementById('totalMaterial').textContent = mats.length;
+      document.getElementById('totalTransaksi').textContent = trx.length;
+
+      // Rough inventory value (harga * stok if exists)
+      let nilai = 0;
+      mats.forEach(m => { if(m.harga) nilai += (m.harga * (m.stok||0)); });
+      document.getElementById('nilaiInventory').textContent = formatRupiah(nilai);
+
+      // transaksi table (with filter & search)
+      const filterJenis = document.getElementById('filterJenis').value;
+      const q = document.getElementById('searchTransaksi').value.trim().toLowerCase();
+
+      const filtered = trx.slice().sort((a,b)=> new Date(b.waktu) - new Date(a.waktu)).filter(t=>{
+        if(filterJenis && t.jenis !== filterJenis) return false;
+        const m = mats.find(x=>x.id===t.materialId) || {nama:'-'};
+        if(!q) return true;
+        return m.nama.toLowerCase().includes(q) || (t.lokasi||'').toLowerCase().includes(q) || (t.status||'').toLowerCase().includes(q) || t.jenis.toLowerCase().includes(q);
+      });
+
+      const tbody = document.getElementById('tabelTransaksi');
+      tbody.innerHTML = filtered.map((t,i)=>{
+        const m = mats.find(x=>x.id===t.materialId) || {nama:'-', satuan:''};
+        const waktu = new Date(t.waktu).toLocaleString();
+        const jenisBadge = t.jenis === 'Masuk' ? 'success' : 'danger';
+        const statusBadge = t.status === 'Selesai' ? 'success' : 'warning text-dark';
+        const stokAkhir = m.stok !== undefined ? `${m.stok} ${m.satuan||''}` : '-';
+        return `<tr>
+          <td>${i+1}</td>
+          <td>${waktu}</td>
+          <td><span class="badge bg-${jenisBadge}">${t.jenis}</span></td>
+          <td>${m.nama}</td>
+          <td>${t.jumlah} ${m.satuan||''}</td>
+          <td>${t.lokasi||'-'}</td>
+          <td><span class="badge ${t.status === 'Selesai' ? 'bg-success' : 'bg-warning text-dark'}">${t.status}</span></td>
+          <td>${stokAkhir}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-danger" onclick="hapusTransaksi(${t.id})">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>`; }).join('');
+    }
+
+    // Material page
+    function renderMaterial(){
+      const mats = getMaterials();
+      const body = document.getElementById('materialBody');
+      body.innerHTML = mats.map((m,i)=>`
+        <tr>
+          <td>${i+1}</td>
+          <td>${m.nama}</td>
+          <td>${m.satuan||'-'}</td>
+          <td>${m.stok ?? 0}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-danger" onclick="hapusMaterial(${m.id})"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // stok
+    function renderStok(){
+      const mats = getMaterials();
+      document.getElementById('stokBody').innerHTML = mats.map((m,i)=>`
+        <tr>
+          <td>${i+1}</td>
+          <td>${m.nama}</td>
+          <td>${m.stok ?? 0}</td>
+          <td>${m.satuan||'-'}</td>
+          <td><button class="btn btn-sm btn-outline-primary" onclick="adjustStokForm(${m.id})"><i class="fas fa-edit"></i></button></td>
+        </tr>
+      `).join('');
+      document.getElementById('stokUpdated').textContent = new Date().toLocaleString();
+    }
+
+    // masuk
+    function renderMasuk(){
+      const trx = getTransaksi().filter(t=>t.jenis === 'Masuk').sort((a,b)=> new Date(b.waktu)-new Date(a.waktu));
+      const mats = getMaterials();
+      document.getElementById('masukBody').innerHTML = trx.map((t,i)=>{
+        const m = mats.find(x=>x.id===t.materialId) || {nama:'-'};
+        return `<tr>
+          <td>${i+1}</td>
+          <td>${new Date(t.waktu).toLocaleString()}</td>
+          <td>${m.nama}</td>
+          <td>${t.jumlah} ${m.satuan||''}</td>
+          <td>${t.lokasi||'-'}</td>
+          <td><button class="btn btn-sm btn-outline-danger" onclick="hapusTransaksi(${t.id})"><i class="fas fa-trash"></i></button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    // keluar
+    function renderKeluar(){
+      const trx = getTransaksi().filter(t=>t.jenis === 'Keluar').sort((a,b)=> new Date(b.waktu)-new Date(a.waktu));
+      const mats = getMaterials();
+      document.getElementById('keluarBody').innerHTML = trx.map((t,i)=>{
+        const m = mats.find(x=>x.id===t.materialId) || {nama:'-'};
+        return `<tr>
+          <td>${i+1}</td>
+          <td>${new Date(t.waktu).toLocaleString()}</td>
+          <td>${m.nama}</td>
+          <td>${t.jumlah} ${m.satuan||''}</td>
+          <td>${t.lokasi||'-'}</td>
+          <td><button class="btn btn-sm btn-outline-danger" onclick="hapusTransaksi(${t.id})"><i class="fas fa-trash"></i></button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    /* ==========================
+       Actions: CRUD & transaksi
+       ========================== */
+
+    function addMaterial(name, satuan, stok=0, harga){
+      if(!name) return alert('Isi nama material');
+      const arr = getMaterials();
+      const id = Date.now();
+      arr.push({ id, nama: name, satuan: satuan || '-', stok: Number(stok)||0, harga: harga ? Number(harga) : undefined });
+      saveMaterials(arr);
+      refreshAll();
+      // close modal if open
+      const modalEl = document.getElementById('modalTambahMaterial');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if(modal) modal.hide();
+    }
+
+    function hapusMaterial(id){
+      if(!confirm('Hapus material dan semua transaksi terkait?')) return;
+      let mats = getMaterials().filter(x=>x.id !== id);
+      saveMaterials(mats);
+      // remove transaksi terkait
+      let trx = getTransaksi().filter(t=>t.materialId !== id);
+      saveTransaksi(trx);
+      refreshAll();
+    }
+
+    function tambahMasuk(materialId, jumlah, lokasi){
+      if(!materialId || !jumlah) return alert('Pilih material dan isi jumlah');
+      const mats = getMaterials();
+      const m = mats.find(x=>x.id == materialId);
+      if(!m) return alert('Material tidak ditemukan');
+      m.stok = (m.stok || 0) + Number(jumlah);
+      saveMaterials(mats);
+
+      const trx = getTransaksi();
+      trx.push({ id: Date.now(), waktu: nowISO(), materialId: Number(materialId), jenis:'Masuk', jumlah: Number(jumlah), lokasi: lokasi || '-', status:'Selesai' });
+      saveTransaksi(trx);
+      refreshAll();
+    }
+
+    function tambahKeluar(materialId, jumlah, lokasi){
+      if(!materialId || !jumlah) return alert('Pilih material dan isi jumlah');
+      const mats = getMaterials();
+      const m = mats.find(x=>x.id == materialId);
+      if(!m) return alert('Material tidak ditemukan');
+      if(Number(jumlah) > (m.stok||0)) {
+        if(!confirm('Jumlah keluar melebihi stok. Tetap lanjutkan (stok akan jadi 0)?')) return;
+      }
+      m.stok = Math.max(0, (m.stok||0) - Number(jumlah));
+      saveMaterials(mats);
+
+      const trx = getTransaksi();
+      trx.push({ id: Date.now(), waktu: nowISO(), materialId: Number(materialId), jenis:'Keluar', jumlah: Number(jumlah), lokasi: lokasi || '-', status:'Selesai' });
+      saveTransaksi(trx);
+      refreshAll();
+    }
+
+    function hapusTransaksi(id){
+      if(!confirm('Hapus transaksi ini?')) return;
+      let trx = getTransaksi().filter(t=>t.id !== id);
+      saveTransaksi(trx);
+      refreshAll();
+    }
+
+    /* quick adjust stok form (modal-like prompt) */
+    function adjustStokForm(id){
+      const mats = getMaterials();
+      const m = mats.find(x=>x.id===id);
+      if(!m) return alert('Material tidak ditemukan');
+      const newStok = prompt('Masukkan stok baru untuk: ' + m.nama, m.stok ?? 0);
+      if(newStok === null) return;
+      m.stok = Number(newStok) || 0;
+      saveMaterials(mats);
+      refreshAll();
+    }
+
+    /* ==========================
+       Navigation & UI wiring
+       ========================== */
+
+    // switch page
+    function showPage(page){
+      document.querySelectorAll('[id^="page-"]').forEach(el => el.classList.add('d-none'));
+      const target = document.getElementById('page-' + page);
+      if(target) target.classList.remove('d-none');
+
+      // set header title
+      const titleMap = {
+        dashboard: 'Home › Dashboard',
+        material: 'Master › Material',
+        stok: 'Inventory › Stok',
+        masuk: 'Transaksi › Material Masuk',
+        keluar: 'Transaksi › Material Keluar'
+      };
+      document.getElementById('headerTitle').textContent = titleMap[page] || 'Dashboard';
+
+      // update active nav
+      document.querySelectorAll('.sidebar-nav .nav-link').forEach(a=>{
+        a.classList.toggle('active', a.dataset.page === page);
+      });
+
+      // render page content
+      if(page === 'dashboard') renderDashboard();
+      if(page === 'material') { renderMaterial(); renderDropdowns(); }
+      if(page === 'stok') renderStok();
+      if(page === 'masuk') { renderMasuk(); renderDropdowns(); }
+      if(page === 'keluar') { renderKeluar(); renderDropdowns(); }
+
+      // focus search reset
+      document.getElementById('searchTransaksi').value = '';
+    }
+
+    // wire sidebar clicks
+    document.querySelectorAll('.sidebar-nav .nav-link').forEach(a=>{
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        const page = this.dataset.page;
+        showPage(page);
+      });
+    });
+
+    // setup global search & filters
+    document.getElementById('filterJenis').addEventListener('change', renderDashboard);
+    document.getElementById('searchTransaksi').addEventListener('input', renderDashboard);
+    document.getElementById('globalSearch').addEventListener('input', function(){
+      const q = this.value.toLowerCase();
+      // simple: filter materials by name to help jump
+      if(!q) return;
+      const mats = getMaterials();
+      const found = mats.find(m => m.nama.toLowerCase().includes(q));
+      if(found){
+        showPage('material');
+        // highlight row? scroll into view
+        setTimeout(()=> {
+          const rows = Array.from(document.querySelectorAll('#materialBody tr'));
+          const idx = mats.findIndex(m=>m.id===found.id);
+          if(rows[idx]) rows[idx].scrollIntoView({behavior:'smooth', block:'center'});
+        },120);
+      }
+    });
+
+    // render dropdowns for material selects
+    function renderDropdowns(){
+      const mats = getMaterials();
+      const options = mats.map(m=>`<option value="${m.id}">${m.nama} (${m.satuan||'-'})</option>`).join('');
+      document.getElementById('mSelect').innerHTML = options;
+      document.getElementById('kSelect').innerHTML = options;
+    }
+
+    /* ==========================
+       UI events
+       ========================== */
+
+    // save material modal
+    document.getElementById('btnSaveMaterialModal').addEventListener('click', function(){
+      const n = document.getElementById('namaMat').value.trim();
+      const s = document.getElementById('satuanMat').value.trim();
+      const st = document.getElementById('stokMat').value;
+      addMaterial(n, s, st || 0);
+      // clear inputs
+      document.getElementById('namaMat').value = '';
+      document.getElementById('satuanMat').value = '';
+      document.getElementById('stokMat').value = '';
+    });
+
+    document.getElementById('refreshMaterial').addEventListener('click', renderMaterial);
+
+    // tambah masuk
+    document.getElementById('btnMasuk').addEventListener('click', function(){
+      const id = document.getElementById('mSelect').value;
+      const jumlah = Number(document.getElementById('mJumlah').value);
+      const lokasi = document.getElementById('mLokasi').value.trim();
+      tambahMasuk(id, jumlah, lokasi);
+      document.getElementById('mJumlah').value = '';
+      document.getElementById('mLokasi').value = '';
+      showPage('masuk');
+    });
+
+    // tambah keluar
+    document.getElementById('btnKeluar').addEventListener('click', function(){
+      const id = document.getElementById('kSelect').value;
+      const jumlah = Number(document.getElementById('kJumlah').value);
+      const lokasi = document.getElementById('kLokasi').value.trim();
+      tambahKeluar(id, jumlah, lokasi);
+      document.getElementById('kJumlah').value = '';
+      document.getElementById('kLokasi').value = '';
+      showPage('keluar');
+    });
+
+    // delete transaksi & material functions are global (used in html)
+    window.hapusMaterial = hapusMaterial;
+    window.hapusTransaksi = hapusTransaksi;
+    window.tambahMasuk = tambahMasuk;
+    window.tambahKeluar = tambahKeluar;
+    window.adjustStokForm = adjustStokForm;
+
+    /* ==========================
+       Refresh all views
+       ========================== */
+
+    function refreshAll(){
+      renderMaterial();
+      renderStok();
+      renderMasuk();
+      renderKeluar();
+      renderDashboard();
+      renderDropdowns();
+    }
+
+    // initial render
+    renderDropdowns();
+    showPage('dashboard');
+
+    // small UX: About button
+    document.getElementById('aboutBtn').addEventListener('click', ()=> {
+      alert('Portable Material Tracker\nVersi 1.0\nSingle-file demo\n\nCreated quickly — siap diintegrasikan ke backend.');
+    });
+
+    // quick: support deleting all data for reset (ctrl+shift+R)
+    document.addEventListener('keydown', (e) => {
+      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'r'){
+        if(confirm('Reset seluruh data (materials & transaksi)?')) {
+          localStorage.removeItem('materials');
+          localStorage.removeItem('transaksi');
+          initSampleData();
+          refreshAll();
+          showPage('dashboard');
+          alert('Data di-reset ke sample.');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
