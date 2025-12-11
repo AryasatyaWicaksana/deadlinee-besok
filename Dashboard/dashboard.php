@@ -19,11 +19,11 @@
       </div>
       <nav class="sidebar-nav">
         <ul>
-          <li class="nav-item active"><a href="dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-          <li class="nav-item"><a href="material.html" class="nav-link"><i class="fas fa-box me-2"></i>Material</a></li>
-          <li class="nav-item"><a href="stok.html" class="nav-link"><i class="fas fa-warehouse me-2"></i>Stok</a></li>
-          <li class="nav-item"><a href="masuk.html" class="nav-link"><i class="fas fa-sign-in-alt me-2"></i>Material Masuk</a></li>
-          <li class="nav-item"><a href="keluar.html" class="nav-link"><i class="fas fa-sign-out-alt me-2"></i>Material Keluar</a></li>
+          <li class="nav-item active"><a href="dashboard.php" class="nav-link"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+          <li class="nav-item"><a href="material.php" class="nav-link"><i class="fas fa-box me-2"></i>Material</a></li>
+          <li class="nav-item"><a href="stok.php" class="nav-link"><i class="fas fa-warehouse me-2"></i>Stok</a></li>
+          <li class="nav-item"><a href="masuk.php" class="nav-link"><i class="fas fa-sign-in-alt me-2"></i>Material Masuk</a></li>
+          <li class="nav-item"><a href="keluar.php" class="nav-link"><i class="fas fa-sign-out-alt me-2"></i>Material Keluar</a></li>
         </ul>
       </nav>
     </div>
@@ -35,7 +35,7 @@
           <h2 class="page-title"><i class="fas fa-home me-2"></i>Home &gt; Dashboard</h2>
           <div class="header-actions">
             <button class="btn btn-outline-primary me-2"><i class="fas fa-info-circle me-1"></i>About</button>
-            <button class="btn btn-outline-danger" id="logoutBtn" onclick="location.href='./index.html'"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+            <button class="btn btn-outline-danger" id="logoutBtn" onclick="location.href='../index.php'"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
           </div>
         </div>
       </header>

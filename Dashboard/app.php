@@ -170,7 +170,7 @@
         <div class="header-actions">
           <input id="globalSearch" type="search" class="form-control form-control-sm d-inline-block" style="width:260px;" placeholder="Cari transaksi / material...">
           <button class="btn btn-outline-primary btn-sm ms-2" id="aboutBtn"><i class="fas fa-info-circle me-1"></i>About</button>
-          <button class="btn btn-outline-danger btn-sm ms-2" id="logoutBtn" onclick="location.reload()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+          <button class="btn btn-outline-danger btn-sm ms-2" id="logoutBtn"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
         </div>
       </header>
 
@@ -750,6 +750,14 @@
       document.getElementById('kJumlah').value = '';
       document.getElementById('kLokasi').value = '';
       showPage('keluar');
+    });
+
+    // logout button - MENGARAH KE ../index.php
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      // Optional: tambahkan konfirmasi sebelum logout
+      if(confirm('Yakin ingin keluar dari aplikasi?')) {
+        window.location.href = '../index.php';
+      }
     });
 
     // delete transaksi & material functions are global (used in html)

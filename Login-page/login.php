@@ -22,7 +22,7 @@
             </div>
             <div class="remember-forgot">
                 <label><input type="checkbox" id="remember">Remember me</label>
-                <a href="forgot-password.html">Forgot Password ?</a>
+                <a href="forgot-password.php">Forgot Password ?</a>
             </div>
 
             <!-- Tombol Login -->
@@ -30,7 +30,7 @@
 
             <!-- Di bagian register-link -->
             <div class="register-link">
-                <p>Don't have an account ? <a href="register.html">Register</a></p>
+                <p>Don't have an account ? <a href="register.php">Register</a></p>
             </div>
         </form>
     </div>
